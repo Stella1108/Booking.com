@@ -1,3 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small helper so images don't overflow */
+img { max-width: 100%; display: block; }
+
 @import "tailwindcss";
 
 :root {
