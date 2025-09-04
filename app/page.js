@@ -781,7 +781,7 @@ export default function Page() {
       </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold">7Seasons Apartments Budapest</h3>
-        <p className="text-gray-500 text-sm">06. Terézváros, Hungary, Budapest</p>
+        <p className="text-gray-500 text-sm">06. Terezvaros, Hungary, Budapest</p>
 
         <div className="flex items-center gap-2 mt-2">
           <span className="bg-blue-600 text-white text-sm font-semibold px-2 py-1 rounded">8.7</span>
