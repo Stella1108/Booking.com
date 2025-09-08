@@ -20,7 +20,7 @@ export default function Page() {
       setUrl(window.location.href); // update state once on client
     }
   }, []);
-    return <p>Current URL: {"C:\Users\Stella Ross\OneDrive\Desktop\Booking.com\booking-homehtt"}</p>;
+
 
 
   const [menuOpen, setMenuOpen] = useState(false);
