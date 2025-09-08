@@ -2,21 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* small helper so images don't overflow */
-img { max-width: 100%; display: block; }
+/* Import slick-carousel styles after Tailwind */
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 
-@import "tailwindcss";
+/* Prevent images from overflowing */
+img {
+  max-width: 100%;
+  display: block;
+}
 
+/* Theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,3 +30,4 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
