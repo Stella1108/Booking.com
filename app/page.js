@@ -12,6 +12,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 
 export default function Page() {
+
+ const [url, setUrl] = useState(""); // state for URL
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrl(window.location.href); // update state once on client
+    }
+  }, []);
+    return <p>Current URL: {"C:\Users\Stella Ross\OneDrive\Desktop\Booking.com\booking-homehtt"}</p>;
+
+
   const [menuOpen, setMenuOpen] = useState(false);
   // checkin-checkout
   const [checkin, setCheckin] = useState("");
@@ -2224,11 +2235,6 @@ const tabData = {
 </div>
 
 </footer>
-
-
-
-
-
 
     </div>
     
