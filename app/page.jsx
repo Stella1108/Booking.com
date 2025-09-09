@@ -1,28 +1,27 @@
-"use client";
-import Image from "next/image";
-import { Menu, X } from "lucide-react"; 
+'use client';
+import { useEffect, useState } from 'react';
+// import { Menu, X } from "lucide-react"; 
+import Image from 'next/image'
 
-import { useState, useEffect, useRef } from "react"
-import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style
 import "react-date-range/dist/theme/default.css"; // theme
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight,Menu, X } from "lucide-react";
 
 
-
-export default function Page() {
-
- const [url, setUrl] = useState(""); // state for URL
+function Page() {
+    const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.href); // update state once on client
-    }
+    const checkScreen = () => setIsDesktop(window.innerWidth >= 1024);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
   }, []);
 
 
 
+  
   const [menuOpen, setMenuOpen] = useState(false);
   // checkin-checkout
   const [checkin, setCheckin] = useState("");
@@ -34,6 +33,7 @@ export default function Page() {
     endDate: new Date(),
     key: "selection",
   });
+
 
   //curosal 
   const properties = [
@@ -121,13 +121,9 @@ export default function Page() {
   },
 ];
   const [cityIndex, setCityIndex] = useState(0);
-
-  const nextCity = () => {
-    if (cityIndex < cities.length - 6) setCityIndex(cityIndex + 1);
-  };
-  const prevCity = () => {
-    if (cityIndex > 0) setCityIndex(cityIndex - 1);
-  };
+ const prevCity = () => setCityIndex((prev) => Math.max(prev - 1, 0));
+const nextCity = () =>
+  setCityIndex((prev) => Math.min(prev + 1, cities.length - 6));
 
 //end curosal (explore india)
 
@@ -423,7 +419,7 @@ image:
 name: "Mahabalipuram",
 distance: "1,354 km ",
 image:
-"hhttps://r-xx.bstatic.com/xdata/images/city/170x136/786904.jpg?k=ded708831ab55bb2a028de7bf266af5f81aa051832a7ca7f5e3c7a5a6230ae91&o=",
+"https://r-xx.bstatic.com/xdata/images/city/170x136/786904.jpg?k=ded708831ab55bb2a028de7bf266af5f81aa051832a7ca7f5e3c7a5a6230ae91&o=",
 },
 {
 name: "Rameswaram",
@@ -538,11 +534,16 @@ const tabData = {
     }
   };
 
-
   //end of dropdown
 
   return (
+    <main>
     <div>
+         <div>
+      {isDesktop ? <p>Desktop view</p> : <p>Mobile view</p>}
+    </div>
+   
+
       {/* Blue Section */}
     <div className="w-full bg-[#003b95] text-white pb-20 relative">
       <div className="w-full px-0 md:px-[200px]">
@@ -999,72 +1000,70 @@ const tabData = {
 
 
    {/* //9(explore india)  */}
-<section className="mt-12 px-2 md:px-[200px] relative">
-  {/* Heading */}
-  <h2 className="text-3xl font-bold">Explore India</h2>
-  <p className="text-lg text-gray-600 mt-1">
-    These popular destinations have a lot to offer
-  </p>
+    <section className="mt-12 px-2 md:px-[200px] relative">
+      {/* Heading */}
+      <h2 className="text-3xl font-bold">Explore India</h2>
+      <p className="text-lg text-gray-600 mt-1">
+        These popular destinations have a lot to offer
+      </p>
 
-  <div className="relative flex items-center mt-6">
-    {/* Left arrow (desktop only) */}
-    <div className="hidden md:block">
-      {cityIndex > 0 && (
-        <button
-          onClick={prevCity}
-          className="absolute -left-12 z-10 bg-white rounded-full p-2 shadow hover:bg-gray-100"
-        >
-          <ChevronLeft size={24} />
-        </button>
-      )}
-    </div>
-
-    {/* Scrollable container */}
-    <div
-      className={`flex overflow-x-auto md:overflow-hidden w-full space-x-4 md:space-x-0 scrollbar-hide`}
-    >
-      <div
-        className={`flex transition-transform duration-500 ease-in-out ${
-          window.innerWidth >= 768 ? '' : ''
-        }`}
-        style={{
-          transform:
-            window.innerWidth >= 768
-              ? `translateX(-${cityIndex * (100 / 6)}%)`
-              : 'none',
-        }}
-      >
-        {cities.map((city, i) => (
-          <div
-            key={i}
-            className="flex-shrink-0 w-full md:w-[calc(100%/6)] px-2"
-          >
-            <div
-              className="h-40 md:h-40 w-full rounded-lg overflow-hidden bg-cover bg-center relative"
-              style={{ backgroundImage: `url(${city.img})` }}
+      <div className="relative flex items-center mt-6">
+        {/* Left arrow (desktop only) */}
+        <div className="hidden md:block">
+          {cityIndex > 0 && (
+            <button
+              onClick={prevCity}
+              className="absolute -left-12 z-10 bg-white rounded-full p-2 shadow hover:bg-gray-100"
             >
-              <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-            </div>
-            <p className="mt-2 text-ml font-semibold text-left">{city.name}</p>
-            <p className="text-sm text-gray-600 text-left">{city.properties}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+              <ChevronLeft size={24} />
+            </button>
+          )}
+        </div>
 
-    {/* Right arrow (desktop only) */}
-    <div className="hidden md:block">
-      {cityIndex < cities.length - 6 && (
-        <button
-          onClick={nextCity}
-          className="absolute -right-12 z-10 bg-white rounded-full p-2 shadow hover:bg-gray-100"
+        {/* Scrollable container */}
+        <div
+          className={`flex overflow-x-auto md:overflow-hidden w-full space-x-4 md:space-x-0 scrollbar-hide`}
         >
-          <ChevronRight size={24} />
-        </button>
-      )}
-    </div>
-  </div>
-</section>
+          <div
+            className={`flex transition-transform duration-500 ease-in-out`}
+            style={{
+              transform: isDesktop
+                ? `translateX(-${cityIndex * (100 / 6)}%)`
+                : 'none',
+            }}
+          >
+            {cities.map((city, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 w-full md:w-[calc(100%/6)] px-2"
+              >
+                <div
+                  className="h-40 md:h-40 w-full rounded-lg overflow-hidden bg-cover bg-center relative"
+                  style={{ backgroundImage: `url(${city.img})` }}
+                >
+                  <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                </div>
+                <p className="mt-2 text-ml font-semibold text-left">{city.name}</p>
+                <p className="text-sm text-gray-600 text-left">{city.properties}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right arrow (desktop only) */}
+        <div className="hidden md:block">
+          {cityIndex < cities.length - 6 && (
+            <button
+              onClick={nextCity}
+              className="absolute -right-12 z-10 bg-white rounded-full p-2 shadow hover:bg-gray-100"
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+
 
 
 {/* (Quick and  easy trip) */}
@@ -2237,6 +2236,9 @@ const tabData = {
 </footer>
 
     </div>
+    </main>
     
   );
 }
+
+export default Page;

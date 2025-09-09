@@ -1,6 +1,6 @@
 {
   "name": "booking-home",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,8 +29,11 @@
     "eslint-config-next": "15.5.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.13"
+  
   },
   "engines": {
     "node": "18.x"
   }
+
 }
+
