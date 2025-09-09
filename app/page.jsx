@@ -539,9 +539,7 @@ const tabData = {
   return (
     <main>
     <div>
-         <div>
-      {isDesktop ? <p>Desktop view</p> : <p>Mobile view</p>}
-    </div>
+   
    
 
       {/* Blue Section */}
